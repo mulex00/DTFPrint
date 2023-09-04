@@ -1,38 +1,64 @@
-.App {
-  text-align: center;
+:root {
+  --body_background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
+  --body_background_rgba: linear-gradient(90deg, rgba(28, 27, 27, 0.8) 0%, rgba(26, 23, 23,0.8) 100%);
+  --body_text: white;
+  --body_color: rgb(200, 0, 0);
+  --cards_color: linear-gradient(90deg, rgb(68, 67, 67) 0%, rgb(66, 63, 63) 100%);
+  --form_input: grey;
+  --nav_menu_active: rgb(36, 34, 34);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+[theme="light"] {
+  --body_background: linear-gradient(90deg, rgb(227, 228, 228) 0%, rgb(229, 232, 232) 100%);
+  --body_background_rgba: linear-gradient(90deg, rgba(227, 228, 228, 0.9) 0%, rgba(229, 232, 232, 0.9) 100%);
+  --body_text: black;
+  --body_color: rgb(200, 0, 0);
+  --cards_color: linear-gradient(90deg, rgb(187, 188, 188) 0%, rgb(189, 192, 192) 100%);
+  --form_input: rgb(189,192,192);
+  --nav_menu_active: rgb(219, 221, 221);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'PT Sans', sans-serif;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.home,
+.services,
+.products,
+.sign-up {
   display: flex;
-  flex-direction: column;
+  height: 90vh;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-size: 3rem;
 }
 
-.App-link {
-  color: #61dafb;
+.services {
+  background-image: url('/images/img-2.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 100px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.products {
+  background-image: url('/images/img-1.jpg');
+  background-position: center;
+  background-size: fill;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 100px;
+}
+
+.sign-up {
+  background-image: url('/images/img-8.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 100px;
 }

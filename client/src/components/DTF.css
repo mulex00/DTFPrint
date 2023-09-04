@@ -1,0 +1,53 @@
+.dtf-container {
+   box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.2);
+   padding-bottom: 100px;
+}
+.dtf-elements {
+    background:var(--body_background_rgba);
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    margin-left: 5%;
+    margin-right: 5%;
+    /*justify-content: center;*/
+}
+.dtf-text{
+    margin-top: 150px;
+    float: left;
+}
+.dtf-text > h1 {
+    color: var(--body_text);
+    font-size: 32px;
+    margin-top: -100px;
+}
+
+.dtf-text > p {
+    margin-top: 8px;
+    color: var(--body_text);
+    font-size: 20px; 
+}
+.dtf-image{
+    float: right;
+    padding-left: 30px;
+}
+
+.dtf-image > img{
+    border-radius: 20px;
+}
+
+@media screen and (max-width: 960px) {
+    .dtf-elements{
+        margin: 0%;
+        display:block;
+        border-radius: 0px;
+    }
+    .dtf-text{
+        float: none;
+    }
+    .dtf-image{
+        padding-top: 30px;
+        padding-left: 0px;
+        width: 100%;
+        float: none;
+    }
+}

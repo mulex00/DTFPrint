@@ -40,7 +40,13 @@ const FormSection = () => {
         formData.append('apartment', apartment);
         formData.append('message', message);
        
-       fetch('http://localhost:5000/send_email', {
+       /*fetch('http://localhost:5000/send_email', {
+        method: 'POST', body: formData, 
+      }).then(()=>alert("Rendelés sikeresen elküldve!"))
+      .catch(()=>alert("Hiba történt!"));
+      return;*/
+
+      fetch('https://dtf-print.onrender.com/send_email', {
         method: 'POST', body: formData, 
       }).then(()=>alert("Rendelés sikeresen elküldve!"))
       .catch(()=>alert("Hiba történt!"));

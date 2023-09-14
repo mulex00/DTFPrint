@@ -1,10 +1,19 @@
-require('dotenv').config()
-const express = require("express");
-const nodemailer = require("nodemailer");
-const cors = require("cors");
+import express from 'express';
+import dalleRoutes from './routes/dalle.routes.js';
+import * as dotenv from 'dotenv';
+//require('dotenv').config();
+import cors from 'cors';
+import nodemailer from 'nodemailer';
+import multer from 'multer';
+dotenv.config();
+
+
+//const express = require("express");
+//const nodemailer = require("nodemailer");
+//const cors = require("cors");
 const app = express();
 const port = process.env.PORT;
-const multer = require("multer")
+//const multer = require("multer")
 
 app.use(cors());
 app.use(express.json({ limit: "25mb" }));
@@ -20,6 +29,12 @@ const upload = multer({
 
 //var myemail = process.env.SENDER_EMAIL;
 //var mypassword = process.env.APPLICATION_PASSWORD;
+
+app.use('/api/v1/dalle', dalleRoutes);
+
+app.get('/', (req, res) => {
+  res.status(200).json({ message:"Hello from DALL.E"})
+})
 
 app.post("/send_email", upload.single('Image'), (req, res) => {
   var transporter = nodemailer.createTransport({

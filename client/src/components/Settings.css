@@ -1,0 +1,102 @@
+.settings{
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 700px;
+    overflow-y: scroll;}
+
+.settings-container{
+    width: 80%;
+}
+.settings-container h3{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.tshirt-color{
+    display: grid;
+    /*Number of menus*/
+    grid-template-columns: repeat(10, auto);
+    grid-gap: 5px;
+}
+.tshirt-color img{
+    width: auto;
+    height: 60px;
+    border: var(--body_color) solid 2px;
+    border-radius: 5px;
+}
+.settings-container input, .settings-container select, .settings-container textarea{
+    padding: 3px 5px;
+    border-radius: 20px;
+    background-color: var(--form_input);
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    margin: 5px 0;
+    border: 1px solid var(--body_text);
+    box-sizing: border-box;
+    display: block;
+}
+.settings-container input{
+    width: 100%;
+}
+
+.font-size{
+    width: 100%;
+}
+.text-x-pos{
+    width: 100%;
+}
+.text-y-pos{
+    width: 100%;
+}
+input[type="file"]{
+    text-align: center;
+    margin-left: 20%;
+    margin-right: 20%;
+    background-color: transparent;
+    border-color: transparent;
+}
+.file-upload-button::file-selector-button{
+    background-color: var(--form_input);
+    margin-left: 30px;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 18px;
+    color: var(--body_text);
+    padding: 8px 20px;
+    border: 1px solid var(--primary);
+    transition: all 0.3s ease-out;
+    border-color: var(--body_text);
+}
+.file-upload-button::file-selector-button:hover{
+    background: var(--body_color);
+    transition: all 0.3s ease-out;
+    transition: 250ms;
+}
+.image-size{
+    width: 100%;
+}
+.image-x-pos{
+    width: 100%;
+}
+.image-y-pos{
+    width: 100%;
+}
+.ai-image-generator-button, .save-design{
+    background-color: transparent;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    margin-left: 30px;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 18px;
+    color: var(--body_text);
+    padding: 8px 20px;
+    border: 1px solid var(--primary);
+    transition: all 0.3s ease-out;
+    border-color: var(--body_text);
+}
+.ai-image-generator-button:hover, .save-design:hover{
+    background:rgb(0, 200, 0);
+    transition: all 0.3s ease-out;
+    transition: 250ms;
+}

@@ -1,0 +1,42 @@
+.display-container{
+    padding-left: 20%;
+    text-align: center;
+    width: 100%;
+}
+.display-tshirt{
+    position: relative;
+    border: var(--body_color) solid 3px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.display-tshirt-img{
+    width: 100%;
+}
+.display-edit-area{
+    position:absolute;
+    top: 0px;
+    left: 0px;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 25%;
+    margin-bottom: 25%;
+    border: black solid 3px;
+    width: 40%;
+    height: 50%;
+    overflow: hidden;
+}
+
+.display-custom-text{
+    position: absolute;
+    width: 100%;
+    color:black;
+}
+.display-custom-text p{
+    font-family: Impact, Charcoal, sans-serif;
+}
+
+.display-custom-img{
+    position: absolute;
+    /*width: 170px;*/
+    /*border: white solid 3px;*/
+}

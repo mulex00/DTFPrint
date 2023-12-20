@@ -12,7 +12,7 @@
     /*justify-content: center;*/
 }
 .dtf-text{
-    margin-top: 150px;
+    margin-top: 100px;
     float: left;
 }
 .dtf-text > h1 {
@@ -33,6 +33,20 @@
 
 .dtf-image > img{
     border-radius: 20px;
+    height: 400px;
+}
+
+@media screen and (max-width: 1400px) {
+    
+    .dtf-image > img{
+        height: 300px;
+    }
+}
+@media screen and (max-width: 1250px) {
+    
+    .dtf-image > img{
+        height: 200px;
+    }
 }
 
 @media screen and (max-width: 960px) {
@@ -47,7 +61,10 @@
     .dtf-image{
         padding-top: 30px;
         padding-left: 0px;
-        width: 100%;
         float: none;
+    }
+    .dtf-image > img{
+        width: 100%;
+        height: unset;
     }
 }

@@ -1,4 +1,4 @@
-.display-container{
+/*.display-container{
     padding-left: 20%;
     text-align: center;
     width: 100%;
@@ -11,6 +11,7 @@
 }
 .display-tshirt-img{
     width: 100%;
+    
 }
 .display-edit-area{
     position:absolute;
@@ -37,6 +38,69 @@
 
 .display-custom-img{
     position: absolute;
-    /*width: 170px;*/
-    /*border: white solid 3px;*/
 }
+*/
+
+.display-container {
+    padding-bottom: 32px;
+    text-align: center;
+    width: 50vw;
+    height: auto;
+    box-sizing: border-box;
+  }
+
+.display-container h2 {
+    padding-top: 32px;
+    padding-bottom: 32px;
+
+}
+
+  .display-tshirt {
+    position: relative;
+    border: var(--body_color) solid 3px;
+    border-radius: 20px;
+    overflow: hidden;
+    max-width: 100%; /* Ensure the t-shirt doesn't exceed the container width */
+    margin: 0 auto;
+    transform-origin: top left; /* Set the scaling origin to the top left corner */
+    transition: transform 0.3s ease; /* Add smooth scaling transition */
+  }
+  
+  .display-tshirt-img {
+    width: 100%;
+    display: block;
+  }
+  
+  .display-edit-area {
+    position: absolute;
+    top: 12vw; /* You can adjust these values as needed, now in percentage */
+    left: 15vw; /* You can adjust these values as needed, now in percentage */
+    border: black solid 3px;
+    width: 40%; /* You can adjust these values as needed, now in percentage */
+    height: 50%; /* You can adjust these values as needed, now in percentage */
+    overflow: hidden;
+  }
+  
+  .display-custom-img {
+    position: absolute;
+
+    object-fit: contain; /* Maintain aspect ratio while fitting within the container */
+  }
+  @media screen and (max-width: 1000px) {
+    .display-container {
+        text-align: center;
+        width: 100vw;
+        height: auto;
+        box-sizing: border-box;
+      }
+      .display-edit-area {
+        top: 24vw; /* You can adjust these values as needed, now in percentage */
+        left: 30vw; /* You can adjust these values as needed, now in percentage */
+        border: black solid 3px;
+        width: 40vw; /* You can adjust these values as needed, now in percentage */
+        height: 60vw; /* You can adjust these values as needed, now in percentage */
+        overflow: hidden;
+      }
+}
+  
+  

@@ -2,6 +2,7 @@ import React from 'react';
 import './Button.css';
 import { Link } from 'react-router-dom';
 
+//Gomb komponens és tulajdonságai
 const STYLES = ['btn--primary', 'btn--outline', 'btn--form_submit', 'btn--form_reset'];
 
 const SIZES = ['btn--medium', 'btn--large'];

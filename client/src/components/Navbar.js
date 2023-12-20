@@ -6,12 +6,11 @@ import logo_light from '../images/cropped-mmstickerlogo-1.png'
 
 function Navbar() {
     const [click, setClick] = useState(false);
-    const [button, setButton] = useState(true);
-
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
     const [logo, setLogo] = useState(logo_dark);
 
+    //Sötét és világos kinézet
     const setDarkMode = () => {
         document.querySelector("body").setAttribute('theme', 'dark')
         setLogo(logo_dark)
@@ -42,10 +41,10 @@ function Navbar() {
                             </Link>
                         </li>
                         <li className='nav-item'>
-                            <a className='nav-links' onClick={closeMobileMenu} href="https://www.mmsticker.hu/" target="_blank">Webshop</a>
+                            <a className='nav-links' onClick={closeMobileMenu} href="https://www.mmsticker.hu/" target="_blank" rel="noopener noreferrer">Webshop</a>
                         </li>
                         <li className='nav-item'>
-                        <a className='nav-links' onClick={closeMobileMenu} href="https://www.mmsticker.hu/cegunkrol/" target="_blank">Cégünkről</a>
+                        <a className='nav-links' onClick={closeMobileMenu} href="https://www.mmsticker.hu/cegunkrol/" target="_blank" rel="noopener noreferrer">Cégünkről</a>
                         </li>
                         <li className='nav-item'>
                             <Link to='/Designer' className='nav-links' onClick={closeMobileMenu}>

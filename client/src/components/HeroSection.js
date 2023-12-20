@@ -3,8 +3,6 @@ import { Button } from './Button'
 import '../App.css'
 import './HeroSection.css'
 import hero_video from '../images/lines_-_12918 (Original).mp4'
-import { useRef } from 'react'
-import Home from './pages/Home'
 
 function HeroSection(props) {
   

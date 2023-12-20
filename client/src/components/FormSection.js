@@ -1,6 +1,7 @@
 import React, {useRef, useState} from "react"
 import './FormSection.css'
 
+//Űrlap
 const FormSection = () => {
     const [dtfImage, setDtfImage] = useState('')
     const [dtfImageFile, setDtfImageFile] = useState('')
@@ -14,6 +15,7 @@ const FormSection = () => {
     const [address, setAddress] = useState('');
     const [apartment, setApartment] = useState('');
     const [message, setMessage] = useState('');
+    const [buttonText, setButtonText] = useState("Rendelés leadása")
 
     const inputRef = useRef(null);
     const form = useRef();
@@ -23,6 +25,7 @@ const FormSection = () => {
     const A3_100_W_Price = 2000;
     const A3_50_W_Price = 1500;
 
+    //Elküldés
     const handleSubmit = (e) => {
         e.preventDefault(); 
         
@@ -39,30 +42,25 @@ const FormSection = () => {
         formData.append('address', address);
         formData.append('apartment', apartment);
         formData.append('message', message);
-       
-       /*fetch('http://localhost:5000/send_email', {
-        method: 'POST', body: formData, 
-      }).then(()=>alert("Rendelés sikeresen elküldve!"))
-      .catch(()=>alert("Hiba történt!"));
-      return;*/
 
+      //Email küldése      
+      setButtonText("Küldés folyamatban...")
       fetch('https://dtf-print.onrender.com/send_email', {
         method: 'POST', body: formData, 
-      }).then(()=>alert("Rendelés sikeresen elküldve!"))
-      .catch(()=>alert("Hiba történt!"));
+      }).then(()=>alert("Rendelés sikeresen elküldve!") & setButtonText("Rendelés leadása"))
+      .catch(()=>alert("Hiba történt!") & setButtonText("Rendelés leadása"));
       return;
     };
     return alert("Tölts ki minden mezőt a rendelés leadásához!");
 };
-
+    //Feltöltött minta képe
     const handleImageChange = (event) => {
-        const file = event.target.files[0];
         console.log(event.target.files[0]);
         setDtfImageFile(event.target.files);
         console.log(dtfImageFile);
         setDtfImage(event.target.files[0]);
     };
-
+    //Árváltozás
     const changePrice = (e) => {
         setDtfType(e.target.value)
         console.log(dtfType);
@@ -98,36 +96,24 @@ const FormSection = () => {
             {dtfImage ? <img src={URL.createObjectURL(dtfImage)} style={{maxWidth: 100}} alt="dtfImage" /> : <label>Nincs minta feltöltve</label> }
             <label>Nyomat típusa:</label>
             <select
-                class ="select_options"
+                className ="select_options"
                 value={dtfType}
                 onChange={changePrice}
                 name="dtfType"
             >
-                <option value="Tekercs 100% fehér alányomás | 3000 Ft/m" class="select_option">
+                <option value="Tekercs 100% fehér alányomás | 3000 Ft/m" className="select_option">
                     Tekercs 100% fehér alányomás | 3000 Ft/m
                     </option>
-                <option value="Tekercs 50% fehér alányomás | 2500 Ft/m" class="select_option">
+                <option value="Tekercs 50% fehér alányomás | 2500 Ft/m" className="select_option">
                     Tekercs 50% fehér alányomás | 2500 Ft/m
                     </option>
-                <option value="A3 100% fehér alányomás | 2000 Ft/m" class="select_option">
+                <option value="A3 100% fehér alányomás | 2000 Ft/m" className="select_option">
                     A3 100% fehér alányomás | 2000 Ft/m
                     </option>
-                <option value="A3 50% fehér alányomás | 1500 Ft/m" class="select_option">
+                <option value="A3 50% fehér alányomás | 1500 Ft/m" className="select_option">
                     A3 50% fehér alányomás | 1500 Ft/m
                     </option>
             </select>
-            {/*<label>Minta szélessége (mm)</label>
-            <input type="number" 
-            required
-            value={dtfWidth}
-            onChange={(e)=>setDtfWidth(e.target.value)}
-            /> 
-            <label>Minta magassága (mm)</label>
-            <input type="number" 
-            required 
-            value={dtfHeight}
-            onChange={(e)=>setDtfHeight(e.target.value)} 
-    /> */}
             <label>Tekercs hossza (m)</label>
             <input type="number" 
             name="dtfLength"
@@ -192,7 +178,7 @@ const FormSection = () => {
             </div>
             <label>Megjegyzés a megrendeléshez</label>
             <textarea 
-            class ="form-message"
+            className ="form-message"
             name="message" 
             placeholder="Megjegyzés a megrendeléshez"
             value={message}
@@ -200,13 +186,8 @@ const FormSection = () => {
             />
             <label>Fizetendő összeg: {Price} Ft</label>
             <div className='form-btns'>
-            <button type="submit" className="form-btns-submit">Rendelés leadása</button>
+            <button type="submit" className="form-btns-submit">{buttonText}</button>
             <button type="reset" className="form-btns-reset">Rendelés újraatöltése</button>
-            {/*<label>{dtfType}</label>
-            <label>{dtfWidth} x </label>
-            <label>{dtfHeight} + </label>
-            <label>{dtfLength}</label>
-<label>{email}</label>*/}
             </div>
         </form>
         </div> 

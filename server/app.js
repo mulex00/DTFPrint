@@ -44,6 +44,39 @@ app.post("/send_email", upload.single('Image'), (req, res) => {
       pass: process.env.PASS,
     },
   });
+
+  //Megrendelő Email
+
+  transporter.sendMail({
+    from: process.env.USER,
+      to: `${req.body.email}`,
+      subject: "Sikeres DTF nyomat rendelés",
+      html: `<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>DTF Megrendelés</title>
+</head>
+<body>
+    <h1>Köszönjük a rendelését! </h1>
+    <h2>Rendelés részletei:</h2>
+    <p>Megrendelő email címe: ${req.body.email}</p>
+    <p>Megrendelő címe: ${req.body.country} ${req.body.city} ${req.body.address} ${req.body.apartment}</p>
+    <p>Nyomat hossza: ${req.body.length} m</p>
+    <p>Fizetendő összeg: ${req.body.price} Ft (6000 Ft / méter)</p>
+    <p>Megjegyzés a megrendeléshez: ${req.body.message}</p>
+</body>
+</html>`,
+  attachments: [{
+    filename: req.file.originalname,
+    content: req.file.buffer,
+  }]
+  })
+  .then((response) => res.send(response.message))
+  .catch((error) => res.status(500).send(error.message));
+
+  //Cég Email
+
   transporter.sendMail({
     from: process.env.USER,
       to: process.env.USER,
@@ -59,9 +92,8 @@ app.post("/send_email", upload.single('Image'), (req, res) => {
     <h2>Rendelés részletei:</h2>
     <p>Megrendelő email címe: ${req.body.email}</p>
     <p>Megrendelő címe: ${req.body.country} ${req.body.city} ${req.body.address} ${req.body.apartment}</p>
-    <p>Nyomat típusa: ${req.body.type}</p>
     <p>Nyomat hossza: ${req.body.length} m</p>
-    <p>Fizetendő összeg: ${req.body.price} Ft</p>
+    <p>Fizetendő összeg: ${req.body.price} Ft (6000 Ft / méter)</p>
     <p>Megjegyzés a megrendeléshez: ${req.body.message}</p>
 </body>
 </html>`,

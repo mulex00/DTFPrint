@@ -5,10 +5,9 @@ import './FormSection.css'
 const FormSection = () => {
     const [dtfImage, setDtfImage] = useState('')
     const [dtfImageFile, setDtfImageFile] = useState('')
-    const [dtfType, setDtfType] = useState("Tekercs 100% fehér alányomás | 3000 Ft/m");
     const [dtfLength, setDtfLength] = useState('1');
     const [email, setEmail] = useState('');
-    const [dtfPrice, setDtfPrice] = useState(3000);
+    const [dtfPrice, setDtfPrice] = useState(6000);
 
     const [country, setCountry] = useState('');
     const [city, setCity] = useState('');
@@ -29,11 +28,10 @@ const FormSection = () => {
     const handleSubmit = (e) => {
         e.preventDefault(); 
         
-        if(dtfImage && dtfType && dtfLength && email && dtfImageFile){
+        if(dtfImage && dtfLength && email && dtfImageFile){
         let formData = new FormData();
         formData.append('Image', dtfImage);
         formData.append('email', email);
-        formData.append('type', dtfType);
         formData.append('length', dtfLength);
         formData.append('price', Price);
 
@@ -45,7 +43,7 @@ const FormSection = () => {
 
       //Email küldése      
       setButtonText("Küldés folyamatban...")
-      fetch('https://dtf-print.onrender.com/send_email', {
+      fetch('https://dtf-print.onrender.com/send_email'/*'http://localhost:5000/send_email'*/, {
         method: 'POST', body: formData, 
       }).then(()=>alert("Rendelés sikeresen elküldve!") & setButtonText("Rendelés leadása"))
       .catch(()=>alert("Hiba történt!") & setButtonText("Rendelés leadása"));
@@ -61,7 +59,7 @@ const FormSection = () => {
         setDtfImage(event.target.files[0]);
     };
     //Árváltozás
-    const changePrice = (e) => {
+    /*const changePrice = (e) => {
         setDtfType(e.target.value)
         console.log(dtfType);
         if(e.target.value == "Tekercs 100% fehér alányomás | 3000 Ft/m"){
@@ -76,7 +74,7 @@ const FormSection = () => {
         if(e.target.value == "A3 50% fehér alányomás | 1500 Ft/m"){
             setDtfPrice(A3_50_W_Price);
         }      
-    }
+    }*/
     let Price = dtfPrice*dtfLength
 
     return(
@@ -94,8 +92,8 @@ const FormSection = () => {
             name="dtfImage"
             ></input>
             {dtfImage ? <img src={URL.createObjectURL(dtfImage)} style={{maxWidth: 100}} alt="dtfImage" /> : <label>Nincs minta feltöltve</label> }
-            <label>Nyomat típusa:</label>
-            <select
+            <h2 className="price_h2">6000 Ft / méter</h2>
+            {/*<select
                 className ="select_options"
                 value={dtfType}
                 onChange={changePrice}
@@ -113,7 +111,7 @@ const FormSection = () => {
                 <option value="A3 50% fehér alányomás | 1500 Ft/m" className="select_option">
                     A3 50% fehér alányomás | 1500 Ft/m
                     </option>
-            </select>
+    </select>*/}
             <label>Tekercs hossza (m)</label>
             <input type="number" 
             name="dtfLength"
@@ -184,7 +182,7 @@ const FormSection = () => {
             value={message}
             onChange={(e)=>setMessage(e.target.value)} 
             />
-            <label>Fizetendő összeg: {Price} Ft</label>
+            <h2 className="final_price">Fizetendő összeg: {Price} Ft</h2>
             <div className='form-btns'>
             <button type="submit" className="form-btns-submit">{buttonText}</button>
             <button type="reset" className="form-btns-reset">Rendelés újraatöltése</button>

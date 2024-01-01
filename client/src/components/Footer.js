@@ -29,12 +29,12 @@ const Footer = () => {
                 <a href='https://www.facebook.com/profile.php?id=100057566885552' target='_blank' aria-label='Facebook'>
                     <i className="fab fa-facebook-f"></i>
                 </a>
-                <Link to='' target='_blank' aria-label='Instagram'>
+                {/*<Link to='' target='_blank' aria-label='Instagram'>
                     <i className="fab fa-instagram"></i>
                 </Link>
                 <Link to='' target='_blank' aria-label='Twitter'>
                     <i className="fab fa-twitter"></i>
-                </Link>
+    </Link>*/}
             </div>
         </div>
     );

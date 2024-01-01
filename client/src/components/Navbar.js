@@ -47,11 +47,6 @@ function Navbar() {
                         <a className='nav-links' onClick={closeMobileMenu} href="https://www.mmsticker.hu/cegunkrol/" target="_blank" rel="noopener noreferrer">Cégünkről</a>
                         </li>
                         <li className='nav-item'>
-                            <Link to='/Designer' className='nav-links' onClick={closeMobileMenu}>
-                                Designer(wip)
-                            </Link>
-                        </li>
-                        <li className='nav-item'>
                          <div className="darkmode-button"> 
                         <input type='checkbox' onClick={closeMobileMenu && toggleTheme} className='nav-checkbox' ></input>
                         </div>  

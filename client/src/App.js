@@ -4,7 +4,6 @@ import Navbar from './components/Navbar';
 import {HashRouter as Router, Routes, Route} from 'react-router-dom';
 import Home from './components/pages/Home';
 import Footer from './components/Footer';
-import Designer from './components/pages/Designer';
 
 function App() {
   return (
@@ -13,7 +12,6 @@ function App() {
         <Navbar/>
         <Routes>
           <Route path='/' exact Component={Home}/>
-          <Route path='/Designer' exact Component={Designer}/>
         </Routes>
         <Footer/>
      </Router>

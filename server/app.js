@@ -55,7 +55,7 @@ app.post("/send_email", upload.array('Image'), (req, res) => {
   console.log(req.files.length)
   //Megrendelő Email
 
-  transporter.sendMail({
+  const customerEmail = transporter.sendMail({
     from: process.env.USER,
       to: `${req.body.email}`,
       subject: "Sikeres DTF nyomat rendelés",
@@ -87,12 +87,12 @@ attachments,
     content: req.file.buffer,
   }]*/
   })
-  .then((response) => res.send(response.message))
-  .catch((error) => res.status(500).send(error.message));
+  /*.then((response) => res.send(response.message))
+  .catch((error) => res.status(500).send(error.message));*/
 
   //Cég Email
 
-  transporter.sendMail({
+  const companyEmail = transporter.sendMail({
     from: process.env.USER,
       to: process.env.USER,
       subject: "DTF nyomat rendelés",
@@ -124,6 +124,7 @@ attachments,
     content: req.file.buffer,
   }]*/
   })
+  Promise.all([customerEmail, companyEmail])
   .then((response) => res.send(response.message))
   .catch((error) => res.status(500).send(error.message));
 })

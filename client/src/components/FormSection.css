@@ -51,6 +51,7 @@ input[type="file"]{
     margin-right: 20%;
     background-color: transparent;
     border-color: transparent;
+    cursor: pointer;
 }
 .form-fileupload::file-selector-button{
     background-color: var(--form_input);
@@ -63,6 +64,7 @@ input[type="file"]{
     border: 1px solid var(--primary);
     transition: all 0.3s ease-out;
     border-color: var(--body_text);
+    cursor: pointer;
 }
 
 .form-fileupload::file-selector-button:hover{
@@ -70,7 +72,37 @@ input[type="file"]{
     transition: all 0.3s ease-out;
     transition: 250ms;
 }
-
+.form-company-container{
+    margin-inline: 30%;
+}
+.form-company-container label{
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    padding: 8px 20px;
+    border: 1px solid var(--primary);
+    cursor: pointer;
+}
+input[type="checkbox"]{
+    display: none;
+}
+.form-company-container label:has(>input[type="checkbox"]:checked ){
+    background-color: var(--body_color);
+}
+.form-company-container label:before{
+    content: "";
+    height: 15px;
+    width: 15px;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.form-company-container label:has(>input[type="checkbox"]:checked ):before{
+    height: 10px;
+    width: 10px;
+    border: 5px solid var(--primary);
+    background-color: var(--body_color);
+}
 .form-address-container{
     display: flex;
     width: 100%;
@@ -81,12 +113,47 @@ input[type="file"]{
     width: 100%;
     display: flex;
     flex-direction:column;
-    padding-top: 32px;
-    padding-left: 32px;
+    padding-right: 20px;
     padding-bottom: 32px;
     text-align: left;
     box-sizing: border-box;
     align-items: center;
+}
+.form-shipping-container{
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+}
+.form-shipping-option{
+    display: flex;
+}
+input[type="radio"]{
+    display: none;
+}
+.form-shipping-option label:has(>input[type="radio"]:checked ){
+    background-color: var(--body_color);
+}
+.form-shipping-option label{
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    padding: 8px 20px;
+    border: 1px solid var(--primary);
+    cursor: pointer;
+    /*transition: all 0.3s ease-out;*/
+}
+.form-shipping-option label:before{
+    content: "";
+    height: 15px;
+    width: 15px;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.form-shipping-option label:has(>input[type="radio"]:checked ):before{
+    height: 10px;
+    width: 10px;
+    border: 5px solid var(--primary);
+    background-color: var(--body_color);
 }
 .form-message{
     resize: none;
@@ -115,6 +182,7 @@ color: var(--body_background);
     border: 1px solid var(--primary);
     transition: all 0.3s ease-out;
     border-color: var(--body_text);
+    cursor: pointer;
 }
 .form-btns-submit:hover{
     background:rgb(0, 200, 0);
@@ -125,6 +193,9 @@ color: var(--body_background);
     background:var(--body_color);
     transition: all 0.3s ease-out;
     transition: 250ms;
+}
+.progress-container{
+    padding-bottom: 30px;
 }
 
 @media screen and (max-width: 960px) {

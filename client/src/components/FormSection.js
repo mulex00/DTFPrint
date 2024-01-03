@@ -1,20 +1,28 @@
 import React, {useRef, useState} from "react"
 import './FormSection.css'
+import axios from "axios"
 
 //Űrlap
 const FormSection = () => {
     const [dtfImage, setDtfImage] = useState('')
     const [dtfImageFile, setDtfImageFile] = useState('')
     const [dtfLength, setDtfLength] = useState('1');
+    const [name, setName] = useState('');
+    const [company, setCompany] = useState(false);
+    const [companyName, setCompanyName] = useState('');
+    const [taxNumber, setTaxNumber] = useState('');
     const [email, setEmail] = useState('');
+    const [telNum, setTelNum] = useState('');
     const [dtfPrice, setDtfPrice] = useState(6000);
 
     const [country, setCountry] = useState('');
     const [city, setCity] = useState('');
     const [address, setAddress] = useState('');
     const [apartment, setApartment] = useState('');
+    const [shipping, setShipping] = useState('');
     const [message, setMessage] = useState('');
     const [buttonText, setButtonText] = useState("Rendelés leadása")
+    const [progress, setProgress] = useState(0);
 
     const inputRef = useRef(null);
     const form = useRef();
@@ -24,33 +32,69 @@ const FormSection = () => {
     const A3_100_W_Price = 2000;
     const A3_50_W_Price = 1500;
 
-    //Elküldés
-    const handleSubmit = (e) => {
-        e.preventDefault(); 
-        
-        if(dtfImage && dtfLength && email && dtfImageFile){
-        let formData = new FormData();
-        formData.append('Image', dtfImage);
-        formData.append('email', email);
-        formData.append('length', dtfLength);
-        formData.append('price', Price);
+// Progress
+const handleProgress = (event) => {
+    if (event.lengthComputable) {
+      const percentage = (event.loaded / event.total) * 100;
+      setProgress(percentage);
+    }
+  };
 
-        formData.append('country', country);
-        formData.append('city', city);
-        formData.append('address', address);
-        formData.append('apartment', apartment);
-        formData.append('message', message);
+  // Submission using Axios
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      //Email küldése      
-      setButtonText("Küldés folyamatban...")
-      fetch('https://dtf-print.onrender.com/send_email'/*'http://localhost:5000/send_email'*/, {
-        method: 'POST', body: formData, 
-      }).then(()=>alert("Rendelés sikeresen elküldve!") & setButtonText("Rendelés leadása"))
-      .catch(()=>alert("Hiba történt!") & setButtonText("Rendelés leadása"));
-      return;
-    };
-    return alert("Tölts ki minden mezőt a rendelés leadásához!");
-};
+    if (dtfImage && dtfLength && name && email && dtfImageFile) {
+      let formData = new FormData();
+      formData.append('Image', dtfImage);
+      formData.append('name', name);
+      formData.append('company', company);
+      formData.append('companyName', companyName);
+      formData.append('taxNumber', taxNumber);
+      formData.append('email', email);
+      formData.append('telNum', telNum);
+      formData.append('length', dtfLength);
+      formData.append('price', Price);
+
+      formData.append('country', country);
+      formData.append('city', city);
+      formData.append('address', address);
+      formData.append('apartment', apartment);
+      formData.append('shipping', shipping);
+      formData.append('message', message);
+
+      setButtonText("Küldés folyamatban...");
+
+      try {
+        const response = await axios.post(
+          'https://dtf-print.onrender.com/send_email' /*'http://localhost:5000/send_email'*/ ,
+          formData,
+          {
+            onUploadProgress: (progressEvent) => {
+                const progress = (progressEvent.loaded / progressEvent.total) * 100;
+                setProgress(progress);
+              }, // Progress callback
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+
+        // Handle success
+        alert("Rendelés sikeresen elküldve!");
+        setButtonText("Rendelés leadása");
+        setProgress(0);
+      } catch (error) {
+        // Handle error
+        alert("Hiba történt!");
+        setButtonText("Rendelés leadása");
+        setProgress(0);
+      }
+    } else {
+      alert("Tölts ki minden mezőt a rendelés leadásához!");
+    }
+  };
+
     //Feltöltött minta képe
     const handleImageChange = (event) => {
         console.log(event.target.files[0]);
@@ -82,6 +126,10 @@ const FormSection = () => {
         <div className="form-elements">   
         <h1>Rendelés leadása!</h1>
         <form action="#" ref={form} onSubmit={handleSubmit}>
+        <label>Kérem a mintát legalább 300 dpi felbontásban átlátszó háttérrel .png formátumban töltse fel! 
+A legkissebb rendelhető mennyiség 1m. Nagyobb mennyiség vagy rendszeres rendelések esetén egyedi viszonteladói kedvezmény!
+Ha nagyobb méretű, esetleg más formátumú anyagot szeretne feltölteni, esetleg  a minta feltöltése vagy elküldése sikertelen, 
+akkor kérem keressen meg minket elérhetőségeink egyikén!</label>
             <label>Minta feltöltése:</label>
             <input className="form-fileupload"
             type="file" 
@@ -119,6 +167,49 @@ const FormSection = () => {
             value={dtfLength}
             onChange={(e)=>setDtfLength(e.target.value)} 
             /> 
+            <label>Megrendelő neve</label>
+            <input 
+            name="name"
+            type="name" 
+            placeholder="Megrendelő neve"
+            required 
+            value={name}
+            onChange={(e)=>setName(e.target.value)} 
+            />
+            <div className="form-company-container">
+            <label>
+            <input 
+            type="checkbox"
+            value={company}
+            onChange={(e)=>setCompany(!company)}
+             />
+             Céges vásárlás ?
+             </label>
+             </div>
+             {company ? (
+              <div>
+               <label>Cég neve</label>
+              <input 
+              name="companyName"
+              type="companyName" 
+              placeholder="Cég neve"
+              required 
+              value={companyName}
+              onChange={(e)=>setCompanyName(e.target.value)} 
+             /> 
+              <label>Adószám</label>
+              <input 
+              name="taxNumber"
+              type="taxNumber" 
+              placeholder="Adószám"
+              required 
+              value={taxNumber}
+              onChange={(e)=>setTaxNumber(e.target.value)} 
+             />
+             </div>
+              ): (
+              <div></div>
+            )}
             <label>Email cím megadása</label>
             <input 
             name="email"
@@ -128,9 +219,18 @@ const FormSection = () => {
             value={email}
             onChange={(e)=>setEmail(e.target.value)} 
             />
+            <label>Telefonszám</label>
+            <input 
+            name="tel"
+            type="tel" 
+            placeholder="Telefonszám"
+            required 
+            value={telNum}
+            onChange={(e)=>setTelNum(e.target.value)} 
+            />
+            <label>Szállítási adatok</label>
             <div className="form-address-container">
             <div className="form-address-items">    
-            <label>Ország</label>
             <input 
             name="country"
             type="text" 
@@ -140,7 +240,6 @@ const FormSection = () => {
             value={country}
             onChange={(e)=>setCountry(e.target.value)} 
             />
-            <label>Város</label>
             <input 
             name="city"
             type="text" 
@@ -152,7 +251,6 @@ const FormSection = () => {
             />
             </div>
             <div className="form-address-items">
-            <label>Cím</label>
             <input 
             name="address"
             type="text" 
@@ -162,7 +260,6 @@ const FormSection = () => {
             value={address}
             onChange={(e)=>setAddress(e.target.value)} 
             />
-            <label>Házszám</label>
             <input 
             name="apartment"
             type="text" 
@@ -174,6 +271,29 @@ const FormSection = () => {
             />
             </div>
             </div>
+            <label>Átvétel módja</label>
+            <div className="form-shipping-container">
+            <div className="form-shipping-option">
+            <label><input 
+            name="radio"
+            type="radio" 
+            required 
+            value="Futár"
+            onChange={(e)=>setShipping(e.target.value)} 
+          />
+            Futár</label>
+            </div>
+            <div className="form-shipping-option">
+            <label><input 
+            name="radio"
+            type="radio" 
+            required 
+            value="Személyes átvétel"
+            onChange={(e)=>setShipping(e.target.value)} 
+            />
+            Személyes átvétel</label>
+            </div>
+            </div>
             <label>Megjegyzés a megrendeléshez</label>
             <textarea 
             className ="form-message"
@@ -183,10 +303,17 @@ const FormSection = () => {
             onChange={(e)=>setMessage(e.target.value)} 
             />
             <h2 className="final_price">Fizetendő összeg: {Price} Ft</h2>
+            <p className="final_price">+Áfa +szállítási költség</p>
             <div className='form-btns'>
             <button type="submit" className="form-btns-submit">{buttonText}</button>
             <button type="reset" className="form-btns-reset">Rendelés újraatöltése</button>
             </div>
+            <div className="progress-container">
+          <div
+            className="progress-bar"
+            style={{borderRadius:"10px", backgroundColor:"rgb(0, 200, 0)", height:"20px", width: `${progress}%` }}
+          ></div>
+        </div>
         </form>
         </div> 
         </div>

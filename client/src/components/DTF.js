@@ -8,17 +8,11 @@ function DTF() {
         <div className='dtf-elements'>
         <div className='dtf-text'>
         <h1>Ismerd meg a DTF (Direct To Film) nyomtatás világát</h1>
-          <p>A DTF (Direct To Film) nyomtatás egy olyan eljárás, amely lehetővé 
-            teszi, hogy szinte bármilyen képet, grafikát vagy design-t közvetlenül 
-            nyomtassunk különféle anyagokra, mint például pólók, sapkák, táskák és 
-            még sok más. Az eljárás lényege az, hogy a mintát vagy a grafikát 
-            közvetlenül egy filmrétegre nyomtatják, majd ezt a filmet használják sablonként 
-            a textilfelületek mintázásához. 
-            Ez a módszer rendkívül sokoldalú és rugalmas, és lehetővé 
-            teszi, hogy személyre szabott ajándékokat készíts, egyedi ruházati 
-            darabokat tervezz vagy akár saját márkád alatt állíts elő és értékesíts 
-            különleges termékeket. A DTF nyomatok mellett szól: magas felbontású grafikák 
-            nyomtatása, élénk színek, tartós, különböző anyagokon használható és gyors gyártás.</p>
+          <p>A DTF (Direct To Film) nyomtatás egy olyan eljárás, amely lehetővé teszi, hogy szinte bármilyen képet, grafikát vagy design-t nyomtassunk különféle anyagokra, mint például pólókra, sapkákra, táskákra, fémre, fára és még sok más anyagra. 
+Az eljárás lényege az, hogy a mintát vagy a grafikát közvetlenül egy hordozó filmrétegre nyomtatjuk, majd ezt a filmet egy hőpréssel lehet felvinni a mintázandó felületre.
+Ez a módszer rendkívül sokoldalú és rugalmas, Kiváló minőségű és rendkívül tartós nyomat készíthető, és lehetővé teszi, hogy személyre szabott ajándékokat készíts, egyedi ruházati darabokat tervezz vagy akár saját márkád alatt állíts elő és értékesíts különleges termékeket.</p>
+<p>A DTF nyomatok mellett szól: magas felbontású grafikák nyomtatása, élénk színek, tartós, különböző anyagokon használható és gyors gyártás.
+</p>
         </div>
         <div className='video_wrap'>
         <div className='video_container'>

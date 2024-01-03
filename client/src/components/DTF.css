@@ -1,12 +1,14 @@
 .dtf-container {
-   box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.2)
+   background:var(--body_background);
 }
 .dtf-elements {
-    background:var(--body_background);
+    padding: 4rem;
     padding: 30px;
     display:grid;
     grid-template-columns: repeat(2, auto);
     grid-gap: 20px;
+    width: 80%;
+    margin: 0 auto;
     /*justify-content: center;*/
 }
 .dtf-text{
@@ -58,7 +60,7 @@ iframe{
     iframe{
         margin: auto;
         display: block;
-        width: 600px;
+        width: 100%;
         aspect-ratio: 16/9;
     }
 }

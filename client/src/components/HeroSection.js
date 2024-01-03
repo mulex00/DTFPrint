@@ -18,7 +18,8 @@ function HeroSection(props) {
     <div className='hero-container'>
       <video src={hero_video} autoPlay loop muted/>
         <h1>DTF Bérnyomtatás</h1>
-        <p>Rendelj tőlünk egyedi, kiváló minőségi DTF nyomatokat kedvező áron és gyors szállítási idővel.</p>
+        <p>Csak egy hőprésre van szükséged! Mi kinyomtatjuk és eljuttatjuk részedre a kért mintát, neked már csak vasalni kell.
+Rendelj tőlünk egyedi, kiváló minőségi DTF nyomatokat kedvező áron és gyors szállítási idővel.</p>
         <div className='hero-btns'>
             <Button 
             className='btns'

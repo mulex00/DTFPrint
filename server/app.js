@@ -60,10 +60,16 @@ app.post("/send_email", upload.single('Image'), (req, res) => {
 <body>
     <h1>Köszönjük a rendelését! </h1>
     <h2>Rendelés részletei:</h2>
+    <p>Megrendelő neve: ${req.body.name}</p>
+    <p>Céges vásárlás?: ${req.body.company}</p>
+    <p>Cég neve: ${req.body.companyName}</p>
+    <p>Adószám: ${req.body.taxNumber}</p>
     <p>Megrendelő email címe: ${req.body.email}</p>
+    <p>Megrendelő telefonszáma: ${req.body.telNum}</p>
     <p>Megrendelő címe: ${req.body.country} ${req.body.city} ${req.body.address} ${req.body.apartment}</p>
     <p>Nyomat hossza: ${req.body.length} m</p>
-    <p>Fizetendő összeg: ${req.body.price} Ft (6000 Ft / méter)</p>
+    <p>Fizetendő összeg: ${req.body.price} Ft (+ Áfa + Szállítási költség)</p>
+    <p>Átvétel módja: ${req.body.shipping}</p>
     <p>Megjegyzés a megrendeléshez: ${req.body.message}</p>
 </body>
 </html>`,
@@ -90,10 +96,16 @@ app.post("/send_email", upload.single('Image'), (req, res) => {
 <body>
     <h1>Leadtak egy rendelést! </h1>
     <h2>Rendelés részletei:</h2>
+    <p>Megrendelő neve: ${req.body.name}</p>
+    <p>Céges vásárlás?: ${req.body.company}</p>
+    <p>Cég neve: ${req.body.companyName}</p>
+    <p>Adószám: ${req.body.taxNumber}</p>
     <p>Megrendelő email címe: ${req.body.email}</p>
+    <p>Megrendelő telefonszáma: ${req.body.telNum}</p>
     <p>Megrendelő címe: ${req.body.country} ${req.body.city} ${req.body.address} ${req.body.apartment}</p>
     <p>Nyomat hossza: ${req.body.length} m</p>
-    <p>Fizetendő összeg: ${req.body.price} Ft (6000 Ft / méter)</p>
+    <p>Fizetendő összeg: ${req.body.price} Ft (+ Áfa + Szállítási költség)</p>
+    <p>Átvétel módja: ${req.body.shipping}</p>
     <p>Megjegyzés a megrendeléshez: ${req.body.message}</p>
 </body>
 </html>`,

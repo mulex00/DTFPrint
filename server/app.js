@@ -86,7 +86,7 @@ attachments,
     filename: req.file.originalname,
     content: req.file.buffer,
   }]*/
-  })
+  });
   /*.then((response) => res.send(response.message))
   .catch((error) => res.status(500).send(error.message));*/
 
@@ -123,8 +123,8 @@ attachments,
     filename: req.file.originalname,
     content: req.file.buffer,
   }]*/
-  })
-  Promise.all([customerEmail, companyEmail])
+  });
+  ([customerEmail, companyEmail])
   .then((response) => res.send(response.message))
   .catch((error) => res.status(500).send(error.message));
 })

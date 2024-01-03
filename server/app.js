@@ -36,15 +36,23 @@ app.get('/', (req, res) => {
   res.status(200).json({ message:"Hello from DALL.E"})
 })
 
-app.post("/send_email", upload.single('Image'), (req, res) => {
+app.post("/send_email", upload.array('Image'), (req, res) => {
   var transporter = nodemailer.createTransport({
-    service: process.env.SERVICE,
+    host: process.env.HOST,
+    port: process.env.SMTPPORT,
+    secure: process.env.SECURE,
+    //service: process.env.SERVICE,
     auth: {
       user: process.env.USER,
       pass: process.env.PASS,
     },
   });
 
+  const attachments = req.files.map(file => ({
+    filename: file.originalname,
+    content: file.buffer,
+  }));
+  console.log(req.files.length)
   //Megrendelő Email
 
   transporter.sendMail({
@@ -73,10 +81,11 @@ app.post("/send_email", upload.single('Image'), (req, res) => {
     <p>Megjegyzés a megrendeléshez: ${req.body.message}</p>
 </body>
 </html>`,
-  attachments: [{
+attachments,
+  /*attachments: [{
     filename: req.file.originalname,
     content: req.file.buffer,
-  }]
+  }]*/
   })
   .then((response) => res.send(response.message))
   .catch((error) => res.status(500).send(error.message));
@@ -109,10 +118,11 @@ app.post("/send_email", upload.single('Image'), (req, res) => {
     <p>Megjegyzés a megrendeléshez: ${req.body.message}</p>
 </body>
 </html>`,
-  attachments: [{
+attachments,
+  /*attachments: [{
     filename: req.file.originalname,
     content: req.file.buffer,
-  }]
+  }]*/
   })
   .then((response) => res.send(response.message))
   .catch((error) => res.status(500).send(error.message));

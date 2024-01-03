@@ -5,7 +5,8 @@ import axios from "axios"
 //Űrlap
 const FormSection = () => {
     const [dtfImage, setDtfImage] = useState('')
-    const [dtfImageFile, setDtfImageFile] = useState('')
+    const [dtfImageFile, setDtfImageFile] = useState([])
+    let dtfImageArray = [];
     const [dtfLength, setDtfLength] = useState('1');
     const [name, setName] = useState('');
     const [company, setCompany] = useState(false);
@@ -46,7 +47,9 @@ const handleProgress = (event) => {
 
     if (dtfImage && dtfLength && name && email && dtfImageFile) {
       let formData = new FormData();
-      formData.append('Image', dtfImage);
+      for (const image of dtfImageFile){
+      formData.append('Image', image);
+      }
       formData.append('name', name);
       formData.append('company', company);
       formData.append('companyName', companyName);
@@ -67,7 +70,7 @@ const handleProgress = (event) => {
 
       try {
         const response = await axios.post(
-          'https://dtf-print.onrender.com/send_email' /*'http://localhost:5000/send_email'*/ ,
+          /*'https://dtf-print.onrender.com/send_email'*/ 'http://localhost:5000/send_email' ,
           formData,
           {
             onUploadProgress: (progressEvent) => {
@@ -97,10 +100,30 @@ const handleProgress = (event) => {
 
     //Feltöltött minta képe
     const handleImageChange = (event) => {
-        console.log(event.target.files[0]);
-        setDtfImageFile(event.target.files);
-        console.log(dtfImageFile);
+        console.log(event.target.files);
+        console.log(event.target.files.length);
+        if (event.target.files.length <= 10){
+        const selectedFiles = Array.from(event.target.files);
+        const updatedImages = [...selectedFiles];
+        setDtfImageFile(selectedFiles);
+        /*for(let i=0; i<event.target.files.length; i++){
+          dtfImageArray.push(event.target.files[i]);
+          console.log(dtfImageArray.length);
+        }*/
+        dtfImageArray = Array.from(event.target.files);
+        //setDtfImageFile(event.target.files);
+        //console.log(dtfImageFile);
         setDtfImage(event.target.files[0]);
+        console.log(dtfImageArray[0]);
+        console.log(dtfImageArray.length);
+        console.log(dtfImage);
+      }
+      else
+      {
+        alert("Maximum 10 fájl tölthető fel!")
+        event.target.value=null;
+        return;
+      }
     };
     //Árváltozás
     /*const changePrice = (e) => {
@@ -130,16 +153,27 @@ const handleProgress = (event) => {
 A legkissebb rendelhető mennyiség 1m. Nagyobb mennyiség vagy rendszeres rendelések esetén egyedi viszonteladói kedvezmény!
 Ha nagyobb méretű, esetleg más formátumú anyagot szeretne feltölteni, esetleg  a minta feltöltése vagy elküldése sikertelen, 
 akkor kérem keressen meg minket elérhetőségeink egyikén!</label>
-            <label>Minta feltöltése:</label>
+            <label>Minta feltöltése (Maximum 10 fájl):</label>
             <input className="form-fileupload"
             type="file" 
             accept="image/*"
             ref={inputRef} 
             onChange={handleImageChange}
+            multiple
             required
             name="dtfImage"
             ></input>
-            {dtfImage ? <img src={URL.createObjectURL(dtfImage)} style={{maxWidth: 100}} alt="dtfImage" /> : <label>Nincs minta feltöltve</label> }
+            {<div className='tshirt-color'>
+      {(() => {
+        let images = [];
+        if (dtfImageFile){
+        for (let i = 0; i<= dtfImageFile.length-1; i++){
+          images.push(<img src={URL.createObjectURL(dtfImageFile[i])}  style={{maxWidth: 100}} alt="dtfImage" />);
+        }}
+        return images;
+      })()}
+    </div>}  
+            {/*dtfImage ? <img src={URL.createObjectURL(dtfImageFile[0])} style={{maxWidth: 100}} alt="dtfImage" /> : <label>Nincs minta feltöltve</label> */}
             <h2 className="price_h2">6000 Ft / méter</h2>
             {/*<select
                 className ="select_options"

@@ -92,7 +92,7 @@ attachments,
 
   //Cég Email
 
-  /*transporter.sendMail({
+  transporter.sendMail({
     from: process.env.USER,
       to: process.env.USER,
       subject: "DTF nyomat rendelés",
@@ -118,14 +118,14 @@ attachments,
     <p>Megjegyzés a megrendeléshez: ${req.body.message}</p>
 </body>
 </html>`,
-attachments,*/
+attachments,
   /*attachments: [{
     filename: req.file.originalname,
     content: req.file.buffer,
   }]*/
- /* })
+  })
   .then((response) => res.send(response.message))
-  .catch((error) => res.status(500).send(error.message));*/
+  .catch((error) => res.status(500).send(error.message));
 })
 
 app.listen(port, () => {

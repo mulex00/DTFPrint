@@ -80,7 +80,7 @@ input[type="file"]{
     align-items: center;
     border-radius: 20px;
     padding: 8px 20px;
-    border: 1px solid var(--primary);
+    border: 1px solid var(--body_text);
     cursor: pointer;
 }
 .form-company-container input[type="checkbox"]{
@@ -93,14 +93,14 @@ input[type="file"]{
     content: "";
     height: 15px;
     width: 15px;
-    border: 2px solid var(--primary);
+    border: 2px solid var(--body_text);
     border-radius: 50%;
     margin-right: 20px;
 }
 .form-company-container label:has(>input[type="checkbox"]:checked ):before{
     height: 10px;
     width: 10px;
-    border: 5px solid var(--primary);
+    border: 5px solid var(--body_text);
     background-color: var(--body_color);
 }
 .form-address-container{
@@ -137,7 +137,7 @@ input[type="radio"]{
     align-items: center;
     border-radius: 20px;
     padding: 8px 20px;
-    border: 1px solid var(--primary);
+    border: 1px solid var(--body_text);
     cursor: pointer;
     /*transition: all 0.3s ease-out;*/
 }
@@ -145,14 +145,14 @@ input[type="radio"]{
     content: "";
     height: 15px;
     width: 15px;
-    border: 2px solid var(--primary);
+    border: 2px solid var(--body_text);
     border-radius: 50%;
     margin-right: 20px;
 }
 .form-shipping-option label:has(>input[type="radio"]:checked ):before{
     height: 10px;
     width: 10px;
-    border: 5px solid var(--primary);
+    border: 5px solid var(--body_text);
     background-color: var(--body_color);
 }
 .form-message{

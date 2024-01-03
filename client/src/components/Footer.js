@@ -7,7 +7,7 @@ const Footer = () => {
         <div className='footer-container'>
             <section className="footer-contact">
             <h1>Kérdésed van? Állunk rendelkezésedre! Telefon: <a href="tel: +36 (20) 967 45 46"> +36 (20) 967 45 46 </a></h1>
-                <h1>Email: <a href="mailto: info@mmsticker.hu">info@mmsticker.hu</a></h1>
+                <h1>Email: <a href="mailto: dtf@mmsticker.hu">dtf@mmsticker.hu</a></h1>
             </section>
             <div className='footer-links'>
             <div className="footer-items">

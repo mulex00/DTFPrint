@@ -83,7 +83,7 @@ input[type="file"]{
     border: 1px solid var(--primary);
     cursor: pointer;
 }
-input[type="checkbox"]{
+.form-company-container input[type="checkbox"]{
     display: none;
 }
 .form-company-container label:has(>input[type="checkbox"]:checked ){

@@ -40,7 +40,7 @@ app.post("/send_email", upload.array('Image'), (req, res) => {
   var transporter = nodemailer.createTransport({
     host: process.env.HOST,
     port: process.env.SMTPPORT,
-    secure: true,
+    secure: false,
     //service: process.env.SERVICE,
     auth: {
       user: process.env.USER,

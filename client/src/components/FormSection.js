@@ -70,7 +70,7 @@ const handleProgress = (event) => {
 
       try {
         const response = await axios.post(
-          'https://dtf-print.onrender.com/send_email' /*'http://localhost:5000/send_email'*/,
+          /*'https://dtf-print.onrender.com/send_email'*/ 'https://mmstore.hu/alexserver' /*'http://localhost:5000/send_email'*/,
           formData,
           {
             onUploadProgress: (progressEvent) => {

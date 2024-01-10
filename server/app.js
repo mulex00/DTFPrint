@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
 // Set up Google Drive API credentials
 const auth = new google.auth.JWT({
   email: process.env.GOOGLE_DRIVE_CLIENT_EMAIL,
-  key: process.env.GOOGLE_DRIVE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Make sure to replace '\n' with actual line breaks
+  key: process.env.GOOGLE_DRIVE_PRIVATE_KEY, // Make sure to replace '\n' with actual line breaks
   scopes: ['https://www.googleapis.com/auth/drive'],
 });
 

@@ -3,11 +3,13 @@ import './FormSection.css'
 import axios from "axios"
 
 //Űrlap
+let dtfLengthArray = [];
+let priceArray = [];
 const FormSection = () => {
     const [dtfImage, setDtfImage] = useState('')
     const [dtfImageFile, setDtfImageFile] = useState([])
     let dtfImageArray = [];
-    const [dtfLength, setDtfLength] = useState('1');
+    const [dtfLength, setDtfLength] = useState([]);
     const [name, setName] = useState('');
     const [company, setCompany] = useState(false);
     const [companyName, setCompanyName] = useState('');
@@ -15,6 +17,7 @@ const FormSection = () => {
     const [email, setEmail] = useState('');
     const [telNum, setTelNum] = useState('');
     const [dtfPrice, setDtfPrice] = useState(6000);
+    const [Price, setPrice] = useState(6000);
 
     const [country, setCountry] = useState('');
     const [city, setCity] = useState('');
@@ -44,6 +47,15 @@ const handleProgress = (event) => {
   // Submission using Axios
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+  const day = currentDate.getDate().toString().padStart(2, '0');
+  const hours = currentDate.getHours().toString().padStart(2, '0');
+  const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+  const seconds = currentDate.getSeconds().toString().padStart(2, '0');
+
+  const formattedTime = `${year}${month}${day}${hours}${minutes}${seconds}`;
 
     if (dtfImage && dtfLength && name && email && dtfImageFile) {
       let formData = new FormData();
@@ -51,6 +63,7 @@ const handleProgress = (event) => {
       formData.append('Image', image);
       }
       formData.append('name', name);
+      formData.append('date', formattedTime);
       formData.append('company', company);
       formData.append('companyName', companyName);
       formData.append('taxNumber', taxNumber);
@@ -70,7 +83,7 @@ const handleProgress = (event) => {
 
       try {
         const response = await axios.post(
-          /*'https://dtf-print.onrender.com/send_email'*/ 'https://mmstore.hu/alexserver' /*'http://localhost:5000/send_email'*/,
+          /*'https://dtf-print.onrender.com/send_email'*/ /*'https://mmstore.hu/alexserver'*/ 'http://localhost:5000/send_email',
           formData,
           {
             onUploadProgress: (progressEvent) => {
@@ -100,23 +113,21 @@ const handleProgress = (event) => {
 
     //Feltöltött minta képe
     const handleImageChange = (event) => {
-        console.log(event.target.files);
-        console.log(event.target.files.length);
+        /*console.log(event.target.files);
+        console.log(event.target.files.length);*/
         if (event.target.files.length <= 10){
         const selectedFiles = Array.from(event.target.files);
         const updatedImages = [...selectedFiles];
         setDtfImageFile(selectedFiles);
-        /*for(let i=0; i<event.target.files.length; i++){
-          dtfImageArray.push(event.target.files[i]);
-          console.log(dtfImageArray.length);
-        }*/
         dtfImageArray = Array.from(event.target.files);
-        //setDtfImageFile(event.target.files);
-        //console.log(dtfImageFile);
         setDtfImage(event.target.files[0]);
-        console.log(dtfImageArray[0]);
+        dtfLengthArray = [];
+        priceArray = [];
+        setPrice(0)
+        setDtfLength([]);
+        /*console.log(dtfImageArray[0]);
         console.log(dtfImageArray.length);
-        console.log(dtfImage);
+        console.log(dtfImage);*/
       }
       else
       {
@@ -125,24 +136,24 @@ const handleProgress = (event) => {
         return;
       }
     };
-    //Árváltozás
-    /*const changePrice = (e) => {
-        setDtfType(e.target.value)
-        console.log(dtfType);
-        if(e.target.value == "Tekercs 100% fehér alányomás | 3000 Ft/m"){
-            setDtfPrice(T_100_W_Price);
-        }
-        if(e.target.value == "Tekercs 50% fehér alányomás | 2500 Ft/m"){
-            setDtfPrice(T_50_W_Price);
-        }
-        if(e.target.value == "A3 100% fehér alányomás | 2000 Ft/m"){
-            setDtfPrice(A3_100_W_Price);
-        }
-        if(e.target.value == "A3 50% fehér alányomás | 1500 Ft/m"){
-            setDtfPrice(A3_50_W_Price);
-        }      
-    }*/
-    let Price = dtfPrice*dtfLength
+    const CalculateLength = (event, id) => {
+      let currentPrice = 0;
+      dtfLengthArray[id] = event.target.value;
+      //console.log(`${id}. elem`);
+      setDtfLength(dtfLengthArray);
+      //console.log(`hossztömb: ${dtfLengthArray}`);
+      priceArray[id] = 0;
+      for (let i = 0; i<= dtfLength.length-1; i++){
+        priceArray[i] = dtfPrice*dtfLength[i]; 
+        currentPrice = currentPrice + priceArray[i];
+        /*console.log(`${id}.kép ára: ${priceArray[i]}`);
+        console.log(`${id}.current price: ${currentPrice}`);*/
+      };
+      /*console.log(`Ártömb: ${priceArray}`);
+      console.log(`Végső hossztömb: ${dtfLength}`);
+      console.log(`Végső current price: ${currentPrice}`);*/
+      setPrice(currentPrice);
+    }
 
     return(
         <div className="form-container">
@@ -168,7 +179,22 @@ akkor kérem keressen meg minket elérhetőségeink egyikén!</label>
         let images = [];
         if (dtfImageFile){
         for (let i = 0; i<= dtfImageFile.length-1; i++){
-          images.push(<img src={URL.createObjectURL(dtfImageFile[i])}  style={{maxWidth: 100}} alt="dtfImage" />);
+          images.push(<section>
+            <img src={URL.createObjectURL(dtfImageFile[i])}  style={{maxWidth: "100px", maxHeight: "100px"}} alt="dtfImage" />
+            <label>Tekercs hossza (m)</label>
+            <input type="number" 
+            name="dtfLength"
+            onWheel={(e) => e.target.blur()}
+            min="1" 
+            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+            oninput="validity.valid||(value='');"
+            step="1"
+            required 
+            id = {i}
+            onChange={(e)=>CalculateLength(e, e.target.id)} 
+            /> 
+          </section>
+          );
         }}
         return images;
       })()}
@@ -194,13 +220,13 @@ akkor kérem keressen meg minket elérhetőségeink egyikén!</label>
                     A3 50% fehér alányomás | 1500 Ft/m
                     </option>
     </select>*/}
-            <label>Tekercs hossza (m)</label>
+            {/*<label>Tekercs hossza (m)</label>
             <input type="number" 
             name="dtfLength"
             required 
             value={dtfLength}
             onChange={(e)=>setDtfLength(e.target.value)} 
-            /> 
+  />*/} 
             <label>Megrendelő neve</label>
             <input 
             name="name"

@@ -5,19 +5,16 @@ import * as dotenv from 'dotenv';
 import cors from 'cors';
 import nodemailer from 'nodemailer';
 import multer from 'multer';
+import { google } from 'googleapis';
+import { PassThrough } from 'stream';
 dotenv.config();
 
-
-//const express = require("express");
-//const nodemailer = require("nodemailer");
-//const cors = require("cors");
 const app = express();
 const port = process.env.PORT;
-//const multer = require("multer")
 
 app.use(cors());
-app.use(express.json({ limit: "25mb" }));
-app.use(express.urlencoded({ limit: "25mb" }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb" }));
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   next();
@@ -27,16 +24,45 @@ const upload = multer({
   storage: multer.memoryStorage()
 });
 
-//var myemail = process.env.SENDER_EMAIL;
-//var mypassword = process.env.APPLICATION_PASSWORD;
-
 app.use('/api/v1/dalle', dalleRoutes);
 
 app.get('/', (req, res) => {
   res.status(200).json({ message:"Hello from DALL.E"})
 })
 
-app.post("/send_email", upload.array('Image'), (req, res) => {
+// Set up Google Drive API credentials
+const auth = new google.auth.JWT({
+  email: process.env.GOOGLE_DRIVE_CLIENT_EMAIL,
+  key: process.env.GOOGLE_DRIVE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Make sure to replace '\n' with actual line breaks
+  scopes: ['https://www.googleapis.com/auth/drive'],
+});
+
+const drive = google.drive({ version: 'v3', auth });
+
+app.post("/send_email", upload.array('Image'), async (req, res) => {
+
+  try {
+    // Upload files to Google Drive
+    const uploadedFiles = await Promise.all(
+      req.files.map(async (file) => {
+        const bufferStream = new PassThrough();
+        bufferStream.end(file.buffer);
+        const driveResponse = await drive.files.create({
+          requestBody: {
+            name: `${req.body.date}_${file.originalname}`,
+            mimeType: file.mimetype,
+            parents: [process.env.GDRIVE_FOLDER]
+          },
+          media: {
+            mimeType: file.mimetype,
+            body: bufferStream,
+          },
+        });
+        return driveResponse.data;
+      })
+    );
+    res.status(200).json({ message: 'Files uploaded successfully!', files: uploadedFiles });  
+
   var transporter = nodemailer.createTransport({
     /*host: process.env.HOST,
     port: process.env.SMTPPORT,
@@ -48,14 +74,16 @@ app.post("/send_email", upload.array('Image'), (req, res) => {
     },
   });
 
-  const attachments = req.files.map(file => ({
+  /*const attachments = req.files.map(file => ({
     filename: file.originalname,
     content: file.buffer,
-  }));
+  }));*/
   console.log(req.files.length)
+  const fileNames = req.files.map(file => file.originalname).join(', ');
+
   //Megrendelő Email
 
-  transporter.sendMail({
+ const customerEmail = transporter.sendMail({
     from: process.env.USER,
       to: `${req.body.email}`,
       subject: "Sikeres DTF nyomat rendelés",
@@ -75,26 +103,27 @@ app.post("/send_email", upload.array('Image'), (req, res) => {
     <p>Megrendelő email címe: ${req.body.email}</p>
     <p>Megrendelő telefonszáma: ${req.body.telNum}</p>
     <p>Megrendelő címe: ${req.body.country} ${req.body.city} ${req.body.address} ${req.body.apartment}</p>
-    <p>Nyomat hossza: ${req.body.length} m</p>
+    <p>Nyomat(ok) hossza (m): ${req.body.length}</p>
+    <p>Fájlok neve: ${fileNames}</p>
     <p>Fizetendő összeg: ${req.body.price} Ft (+ Áfa + Szállítási költség)</p>
     <p>Átvétel módja: ${req.body.shipping}</p>
     <p>Megjegyzés a megrendeléshez: ${req.body.message}</p>
 </body>
 </html>`,
-attachments,
+//attachments,
   /*attachments: [{
     filename: req.file.originalname,
     content: req.file.buffer,
   }]*/
   })
-  .then((response) => res.send(response.message))
-  .catch((error) => res.status(500).send(error.message));
+  /*.then((response) => res.send(response.message))
+  .catch((error) => res.status(500).send(error.message));*/
 
   //Cég Email
 
-  transporter.sendMail({
+  const companyEmail = transporter.sendMail({
     from: process.env.USER,
-      to: process.env.USER,
+      to: process.env.COMPANY,
       subject: "DTF nyomat rendelés",
       html: `<!DOCTYPE html>
 <html lang="en" >
@@ -112,21 +141,33 @@ attachments,
     <p>Megrendelő email címe: ${req.body.email}</p>
     <p>Megrendelő telefonszáma: ${req.body.telNum}</p>
     <p>Megrendelő címe: ${req.body.country} ${req.body.city} ${req.body.address} ${req.body.apartment}</p>
-    <p>Nyomat hossza: ${req.body.length} m</p>
+    <p>Nyomat(ok) hossza (m): ${req.body.length}</p>
+    <p>Fájlok neve: ${fileNames}</p>
     <p>Fizetendő összeg: ${req.body.price} Ft (+ Áfa + Szállítási költség)</p>
     <p>Átvétel módja: ${req.body.shipping}</p>
     <p>Megjegyzés a megrendeléshez: ${req.body.message}</p>
 </body>
 </html>`,
-attachments,
+//attachments,
   /*attachments: [{
     filename: req.file.originalname,
     content: req.file.buffer,
   }]*/
   })
+  Promise.all([customerEmail, companyEmail])
   .then((response) => res.send(response.message))
-  .catch((error) => res.status(500).send(error.message));
-})
+  .catch((error) => console.log(error) & res.status(500).send(error.message))//res.status(500).send(error.message));
+}catch (error) {
+  console.log('Hiba a képek feltöltése során:', error.message)
+}
+  /*} catch (error) {
+  console.log(error);
+  res.status(500).send(error.message);
+} finally {
+  client.close();
+}*/
+});
+
 
 app.listen(port, () => {
   console.log(`nodemailerProject is listening at http://localhost:${port}`);

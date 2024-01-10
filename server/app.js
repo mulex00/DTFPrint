@@ -30,12 +30,10 @@ app.get('/', (req, res) => {
   res.status(200).json({ message:"Hello from DALL.E"})
 })
 
-const key = Buffer.from(process.env.GOOGLE_DRIVE_PRIVATE_KEY , 'base64').toString('ascii');
-
 // Set up Google Drive API credentials
 const auth = new google.auth.JWT({
   email: process.env.GOOGLE_DRIVE_CLIENT_EMAIL,
-  key: key,
+  key: process.env.GOOGLE_DRIVE_PRIVATE_KEY.replace(/\\n/g, '\n'), // Make sure to replace '\n' with actual line breaks
   scopes: ['https://www.googleapis.com/auth/drive'],
 });
 

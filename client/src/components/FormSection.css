@@ -24,13 +24,14 @@
     color: var(--body_color);
     margin-bottom: 32px;
 }
-.price_h2{
-    color: rgb(0, 200, 0);
-    margin-bottom: 32px;
-}
-.final_price{
+.final_price_h2{
     color: rgb(0, 200, 0);
 }
+.final_price_p{
+    color: rgb(0, 200, 0);
+    padding-bottom: 16px;
+}
+
 .form-container input, .form-container select, .form-container textarea{
     width: 100%;
     padding: 6px 10px;

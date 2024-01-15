@@ -102,10 +102,10 @@ app.post("/send_email", upload.array('Image'), async (req, res) => {
     <p>Adószám: ${req.body.taxNumber}</p>
     <p>Megrendelő email címe: ${req.body.email}</p>
     <p>Megrendelő telefonszáma: ${req.body.telNum}</p>
-    <p>Megrendelő címe: ${req.body.country} ${req.body.city} ${req.body.address} ${req.body.apartment}</p>
+    <p>Megrendelő címe: ${req.body.country} ${req.body.zip} ${req.body.city} ${req.body.address}</p>
     <p>Nyomat(ok) hossza (m): ${req.body.length}</p>
     <p>Fájlok neve: ${fileNames}</p>
-    <p>Fizetendő összeg: ${req.body.price} Ft (+ Áfa + Szállítási költség)</p>
+    <p>6000 Ft / méter (+ Áfa + Szállítási költség)</p>
     <p>Átvétel módja: ${req.body.shipping}</p>
     <p>Megjegyzés a megrendeléshez: ${req.body.message}</p>
 </body>
@@ -140,10 +140,10 @@ app.post("/send_email", upload.array('Image'), async (req, res) => {
     <p>Adószám: ${req.body.taxNumber}</p>
     <p>Megrendelő email címe: ${req.body.email}</p>
     <p>Megrendelő telefonszáma: ${req.body.telNum}</p>
-    <p>Megrendelő címe: ${req.body.country} ${req.body.city} ${req.body.address} ${req.body.apartment}</p>
+    <p>Megrendelő címe: ${req.body.country} ${req.body.zip} ${req.body.city} ${req.body.address}</p>
     <p>Nyomat(ok) hossza (m): ${req.body.length}</p>
     <p>Fájlok neve: ${fileNames}</p>
-    <p>Fizetendő összeg: ${req.body.price} Ft (+ Áfa + Szállítási költség)</p>
+    <p>6000 Ft / méter (+ Áfa + Szállítási költség)</p>
     <p>Átvétel módja: ${req.body.shipping}</p>
     <p>Megjegyzés a megrendeléshez: ${req.body.message}</p>
 </body>

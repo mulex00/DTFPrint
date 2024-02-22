@@ -13,12 +13,35 @@
     /*justify-content: center;*/
     /*object-fit: contain;*/
 }
-
+.form-ordertype-container{
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+}
+.form-ordertype-option{
+    display: flex;
+}
+.form-ordertype-option label:has(>input[type="radio"]:checked ){
+    background-color: var(--body_color);
+}
+.form-ordertype-option label{
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    padding: 8px 20px;
+    border: 1px solid var(--body_text);
+    cursor: pointer;
+    /*transition: all 0.3s ease-out;*/
+}
 .form-container label{
     display: block;
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 20px;
+}
+.form-description{
+    font-size: 16px;
+    line-height: 24px;
+    text-align: justify;
 }
 .form-container h1{
     color: var(--body_color);
@@ -45,18 +68,13 @@
     box-sizing: border-box;
     display: block;
 }
-
 input[type="file"]{
-    text-align: center;
-    margin-left: 20%;
-    margin-right: 20%;
-    background-color: transparent;
-    border-color: transparent;
-    cursor: pointer;
+    display: none;
 }
-.form-fileupload::file-selector-button{
+.form-fileupload-button{
+    margin-inline: 30%;
+    cursor: pointer;
     background-color: var(--form_input);
-    margin-left: 30px;
     padding: 8px 20px;
     border-radius: 20px;
     font-size: 18px;
@@ -65,16 +83,21 @@ input[type="file"]{
     border: 1px solid var(--primary);
     transition: all 0.3s ease-out;
     border-color: var(--body_text);
-    cursor: pointer;
 }
-
-.form-fileupload::file-selector-button:hover{
+.form-fileupload-button:hover{
     background: var(--body_color);
     transition: all 0.3s ease-out;
     transition: 250ms;
 }
-.form-company-container{
-    margin-inline: 30%;
+.form-fileupload-text{
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--body_color);
+}
+.form-company-option{
+    display: flex;
+    justify-content: center;
 }
 .form-company-container label{
     display: flex;
@@ -198,13 +221,38 @@ color: var(--body_background);
 .progress-container{
     padding-bottom: 30px;
 }
-
+@media screen and (max-width: 1450px) {
+    .form-ordertype-container{
+        display:block;
+    }
+    .form-ordertype-option{
+        justify-content: center;
+    }
+    .form-company-container{
+        display: block;
+    }
+    .form-company-option{
+        justify-content: center;
+    }
+}
 @media screen and (max-width: 960px) {
     .form-elements{
+        margin-left: 5%;
+        margin-right: 5%;
         padding-left: 5%;
         padding-right: 5%;
     }
-
+    .form-container label{
+        font-size: 16px;
+        line-height: 24px;
+    }
+    input[type="file"]{
+        text-align:center;
+        margin-inline: 5%;
+        background-color: transparent;
+        border-color: transparent;
+        cursor: pointer;
+    }
     .form-address-container{
         width: 100%;
         display: block;
@@ -220,6 +268,26 @@ color: var(--body_background);
         text-align: center;
         box-sizing: border-box;
         align-items: center;
+    }
+    .form-shipping-container{
+        display:block;
+    }
+    .form-shipping-option{
+        justify-content: center;
+    }
+    .form-shipping-option label:before{
+        content: "";
+        height: 15px;
+        width: 15px;
+        border: 2px solid var(--body_text);
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+    .form-shipping-option label:has(>input[type="radio"]:checked ):before{
+        height: 10px;
+        width: 10px;
+        border: 5px solid var(--body_text);
+        background-color: var(--body_color);
     }
 }
 

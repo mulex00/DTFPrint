@@ -4,11 +4,18 @@ import '../App.css'
 import './HeroSection.css'
 import hero_video from '../images/lines_-_12918 (Original).mp4'
 
-function HeroSection(props) {
+function HeroSection(props, freeSamplePack, setFreeSamplePack) {
   
   const scrollRef = props.scrollRef
 
-  const scrollToForm = e => {
+  const scrollToOrder = e => {
+    props.setFreeSamplePack(false)
+    e.current.scrollIntoView({
+      behavior: "smooth"
+    });
+  };
+  const scrollToFreeSamplePack = e => {
+    props.setFreeSamplePack(true)
     e.current.scrollIntoView({
       behavior: "smooth"
     });
@@ -25,10 +32,32 @@ Rendelj tőlünk egyedi, kiváló minőségi DTF nyomatokat kedvező áron és g
             className='btns'
             buttonStyle='btn--outline'
             buttonSize='btn--large'
-            onClick={()=>scrollToForm(scrollRef)}
+            onClick={()=>scrollToOrder(scrollRef)}
             >
             RENDELÉS LEADÁSA
           </Button>
+          <Button 
+            className='btns'
+            buttonStyle='btn--outline'
+            buttonSize='btn--large'
+            onClick={()=>scrollToFreeSamplePack(scrollRef)}
+            >
+            INGYENES MINTACSOMAG
+          </Button>
+        </div>
+        <div className='contact-btns'>
+        <a
+          href="tel: +36 (20) 967 45 46"
+          aria-label="Telephone"
+        >
+          <i className="fa-solid fa-phone"></i>
+        </a>
+        <a
+          href="mailto: dtf@mmsticker.hu"
+          aria-label="Email"
+        >
+          <i className="fa-solid fa-envelope"></i>
+        </a>
         </div>
     </div>
   )

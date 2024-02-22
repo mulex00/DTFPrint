@@ -17,8 +17,8 @@ Ez a módszer rendkívül sokoldalú és rugalmas, Kiváló minőségű és rend
         <div className='video_wrap'>
         <div className='video_container'>
         <iframe  
-      src="https://www.youtube.com/embed/1hTYq42DMIs" 
-      title="DTF Nyomtatás Bemutatása"
+      src="https://www.youtube.com/embed/ZEH8mOEOsho?si=iZqv1mrpy9vXUkOO" 
+      title="DTF Nyomtatás - Nálunk így készül"
       frameBorder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowFullScreen

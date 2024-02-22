@@ -25,6 +25,7 @@
     margin-top: 8px;
     color: var(--body_text);
     font-size: 20px; 
+    line-height: 28px;
 }
 .video_wrap{
     margin-top: 8px;
@@ -53,9 +54,18 @@ iframe{
         border-radius: 0px;
         margin: 0, auto;
         align-items: center;
+        width: 95%;
     }
     .dtf-text{
         float: none;
+    }
+    .dtf-text > h1 {
+        font-size: 24px;
+    }
+    .dtf-text > p {
+        font-size: 14px;
+        line-height: 20px;
+        text-align: justify;
     }
     iframe{
         margin: auto;

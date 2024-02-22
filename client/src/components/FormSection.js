@@ -5,7 +5,8 @@ import axios from "axios";
 //Űrlap
 let dtfLengthArray = [];
 let priceArray = [];
-const FormSection = () => {
+
+const FormSection = ({freeSamplePack, setFreeSamplePack}) => {
   const [dtfImage, setDtfImage] = useState("");
   const [dtfImageFile, setDtfImageFile] = useState([]);
   let dtfImageArray = [];
@@ -48,6 +49,10 @@ const FormSection = () => {
   // Submission using Axios
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let formData = new FormData();
+
+    //ORDER
+    if (freeSamplePack == false) {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
@@ -70,11 +75,11 @@ const FormSection = () => {
 
     const formattedTime = `${year}${month}${day}${hours}${minutes}${seconds}`;
 
-    if (dtfImage && dtfLength && name && email && dtfImageFile) {
-      let formData = new FormData();
+    if (dtfImage && dtfLength && name && email && telNum && country && city && address && zip && dtfImageFile) {
       for (const image of dtfImageFile) {
         formData.append("Image", image);
       }
+      formData.append("freeSamplePack", freeSamplePack)
       formData.append("name", name);
       formData.append("date", formattedTime);
       formData.append("company", company);
@@ -123,12 +128,71 @@ const FormSection = () => {
     } else {
       alert("Tölts ki minden mezőt a rendelés leadásához!");
     }
+  }
+
+  //FREE SAMPLE PACK
+  if (freeSamplePack == true) {
+    if (name && email && telNum && country && city && address && zip) {;
+
+      formData.append("freeSamplePack", freeSamplePack)
+      formData.append("name", name);
+      formData.append("company", company);
+      formData.append("companyName", companyName);
+      formData.append("taxNumber", taxNumber);
+      formData.append("email", email);
+      formData.append("telNum", telNum);
+      //formData.append("price", Price);
+
+      formData.append("country", country);
+      formData.append("city", city);
+      formData.append("address", address);
+      formData.append("zip", zip);
+      formData.append("message", message);
+
+      setButtonText("Küldés folyamatban...");
+
+      try {
+        const response = await axios.post(
+          "https://dtf-print.onrender.com/send_email" /*'https://mmstore.hu/alexserver'*/ /*'http://localhost:5000/send_email'*/,
+          formData,
+          {
+            onUploadProgress: (progressEvent) => {
+              const progress =
+                (progressEvent.loaded / progressEvent.total) * 100;
+              setProgress(progress);
+            }, // Progress callback
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        // Handle success
+        alert("Rendelés sikeresen elküldve!");
+        setButtonText("Rendelés leadása");
+        setProgress(0);
+      } catch (error) {
+        // Handle error
+        alert("Hiba történt!");
+        setButtonText("Rendelés leadása");
+        setProgress(0);
+      }
+    } else {
+      alert("Tölts ki minden mezőt a rendelés leadásához!");
+    }
+  }
   };
 
   //Feltöltött minta képe
   const handleImageChange = (event) => {
     /*console.log(event.target.files);
         console.log(event.target.files.length);*/
+    var fileLabel = document.getElementById("file-name");
+    if (event.target.files.length > 0 && event.target.files.length <= 10) {
+      fileLabel.innerText = "";
+    } else {
+      fileLabel.innerText = "Nincs fájl kiválasztva!";
+    }
     if (event.target.files.length <= 10) {
       const selectedFiles = Array.from(event.target.files);
       const updatedImages = [...selectedFiles];
@@ -145,6 +209,11 @@ const FormSection = () => {
     } else {
       alert("Maximum 10 fájl tölthető fel!");
       event.target.value = null;
+      setDtfImageFile("");
+      setDtfImage("");
+      dtfImageArray = [];
+      dtfLengthArray = [];
+      priceArray = [];
       return;
     }
   };
@@ -173,90 +242,103 @@ const FormSection = () => {
       <div className="form-elements">
         <h1>Rendelés leadása!</h1>
         <form action="#" ref={form} onSubmit={handleSubmit}>
-          <label>
-            Kérem a mintát legalább 300 dpi felbontásban átlátszó háttérrel .png
-            formátumban töltse fel! A legkissebb rendelhető mennyiség 1m.
-            Nagyobb mennyiség vagy rendszeres rendelések esetén egyedi
-            viszonteladói kedvezmény! Ha nagyobb méretű, esetleg más formátumú
-            anyagot szeretne feltölteni, esetleg a minta feltöltése vagy
-            elküldése sikertelen, akkor kérem keressen meg minket
-            elérhetőségeink egyikén!
-          </label>
-          <label>Minta feltöltése (Maximum 10 fájl):</label>
-          <input
-            className="form-fileupload"
-            type="file"
-            accept="image/*"
-            ref={inputRef}
-            onChange={handleImageChange}
-            multiple
-            required
-            name="dtfImage"
-          ></input>
-          <h2 className="final_price_h2">6000 Ft / méter</h2>
-          <p className="final_price_p">+Áfa +szállítási költség</p>
-          {
-            <div className="dtf-image">
-              {(() => {
-                let images = [];
-                if (dtfImageFile) {
-                  for (let i = 0; i <= dtfImageFile.length - 1; i++) {
-                    images.push(
-                      <section>
-                        <img
-                          src={URL.createObjectURL(dtfImageFile[i])}
-                          style={{ maxWidth: "100px", maxHeight: "100px" }}
-                          alt="dtfImage"
-                          loading="lazy"
-                        />
-                        <label>Tekercs hossza (m)</label>
-                        <input
-                          type="number"
-                          name="dtfLength"
-                          onWheel={(e) => e.target.blur()}
-                          min="1"
-                          onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
-                          oninput="validity.valid||(value='');"
-                          step="1"
-                          required
-                          id={i}
-                          onChange={(e) => CalculateLength(e, e.target.id)}
-                        />
-                      </section>
-                    );
-                  }
-                }
-                return images;
-              })()}
+        <div className="form-ordertype-container">
+        <div className="form-ordertype-option">
+              <label>
+                <input
+                  name="freeSamplePack"
+                  type="radio"
+                  checked={freeSamplePack}
+                  required
+                  onChange={(e) => setFreeSamplePack(true)}
+                />
+                Ingyenes mintacsomagot kérek
+              </label>
             </div>
-          }
-          {/*dtfImage ? <img src={URL.createObjectURL(dtfImageFile[0])} style={{maxWidth: 100}} alt="dtfImage" /> : <label>Nincs minta feltöltve</label> */}
-          {/*<select
-                className ="select_options"
-                value={dtfType}
-                onChange={changePrice}
-                name="dtfType"
-            >
-                <option value="Tekercs 100% fehér alányomás | 3000 Ft/m" className="select_option">
-                    Tekercs 100% fehér alányomás | 3000 Ft/m
-                    </option>
-                <option value="Tekercs 50% fehér alányomás | 2500 Ft/m" className="select_option">
-                    Tekercs 50% fehér alányomás | 2500 Ft/m
-                    </option>
-                <option value="A3 100% fehér alányomás | 2000 Ft/m" className="select_option">
-                    A3 100% fehér alányomás | 2000 Ft/m
-                    </option>
-                <option value="A3 50% fehér alányomás | 1500 Ft/m" className="select_option">
-                    A3 50% fehér alányomás | 1500 Ft/m
-                    </option>
-    </select>*/}
-          {/*<label>Tekercs hossza (m)</label>
-            <input type="number" 
-            name="dtfLength"
-            required 
-            value={dtfLength}
-            onChange={(e)=>setDtfLength(e.target.value)} 
-  />*/}
+          <div className="form-ordertype-option">
+              <label>
+                <input
+                  name="freeSamplePack"
+                  type="radio"
+                  checked={!freeSamplePack}
+                  required
+                  onChange={(e) => setFreeSamplePack(false)}
+                />
+                Egyedi DTF nyomatot rendelek
+              </label>
+            </div>
+            </div>
+          {freeSamplePack ? (<div>
+            <label className="form-description">
+              Az ingyenes mintacsomagunk előre összeállított mintákból áll, csak a felvasalható fóliát tartalmazza, melyek kizárólag a tesztelés célját szolgálják.
+            </label>
+          </div>):(
+          <div>
+            <label className="form-description">
+              Kérem a mintát legalább 300 dpi felbontásban átlátszó háttérrel
+              .png formátumban töltse fel! A legkissebb rendelhető mennyiség 1m.
+              Nagyobb mennyiség vagy rendszeres rendelések esetén egyedi
+              viszonteladói kedvezmény! Ha nagyobb méretű, esetleg más formátumú
+              anyagot szeretne feltölteni, esetleg a minta feltöltése vagy
+              elküldése sikertelen, akkor kérem keressen meg minket
+              elérhetőségeink egyikén!
+            </label>
+            <label>Minta feltöltése (Maximum 10 fájl):</label>
+            <label className="form-fileupload-button" for="file-upload">
+              Fájlok kiválasztása
+            </label>
+            <input
+              className="form-fileupload"
+              type="file"
+              id="file-upload"
+              accept="image/*"
+              ref={inputRef}
+              onChange={handleImageChange}
+              multiple
+              required
+              name="dtfImage"
+            ></input>
+            <div className="form-fileupload-text" id="file-name">
+              Nincs fájl kiválasztva!
+            </div>
+            <h2 className="final_price_h2">6000 Ft / méter</h2>
+            <p className="final_price_p">+Áfa +szállítási költség</p>
+            {
+              <div className="dtf-image">
+                {(() => {
+                  let images = [];
+                  if (dtfImageFile) {
+                    for (let i = 0; i <= dtfImageFile.length - 1; i++) {
+                      images.push(
+                        <section>
+                          <img
+                            src={URL.createObjectURL(dtfImageFile[i])}
+                            style={{ maxWidth: "100px", maxHeight: "100px" }}
+                            alt="dtfImage"
+                            loading="lazy"
+                          />
+                          <label>Tekercs hossza (m)</label>
+                          <input
+                            type="number"
+                            name="dtfLength"
+                            onWheel={(e) => e.target.blur()}
+                            min="1"
+                            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                            oninput="validity.valid||(value='');"
+                            step="1"
+                            required
+                            id={i}
+                            onChange={(e) => CalculateLength(e, e.target.id)}
+                          />
+                        </section>
+                      );
+                    }
+                  }
+                  return images;
+                })()}
+              </div>
+            }
+          </div>)}                 
           <label>Megrendelő neve</label>
           <input
             name="name"
@@ -267,6 +349,7 @@ const FormSection = () => {
             onChange={(e) => setName(e.target.value)}
           />
           <div className="form-company-container">
+          <div className="form-company-option">
             <label>
               <input
                 type="checkbox"
@@ -275,6 +358,7 @@ const FormSection = () => {
               />
               Céges vásárlás ?
             </label>
+            </div>
           </div>
           {company ? (
             <div>
@@ -341,7 +425,7 @@ const FormSection = () => {
               />
             </div>
             <div className="form-address-items">
-            <input
+              <input
                 name="city"
                 type="text"
                 placeholder="Város"
@@ -361,6 +445,8 @@ const FormSection = () => {
               />
             </div>
           </div>
+          {freeSamplePack ? (<div></div>) : 
+          (<div>
           <label>Átvétel módja</label>
           <div className="form-shipping-container">
             <div className="form-shipping-option">
@@ -388,6 +474,7 @@ const FormSection = () => {
               </label>
             </div>
           </div>
+          </div>)}
           <label>Megjegyzés a megrendeléshez</label>
           <textarea
             className="form-message"

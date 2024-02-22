@@ -90,7 +90,7 @@ h1 {
 }
 
 .cards__item__info {
-  padding: 20px 30px 30px;
+  padding: 20px 30px 20px;
   text-align: center;
 }
 
@@ -118,7 +118,17 @@ h1 {
 }
 
 @media only screen and (max-width: 1024px) {
+  h1 {
+    font-size: 24px;
+  }
+  .cards{
+    padding: 1rem;
+  }
   .cards__item {
     margin-bottom: 2rem;
+  }
+  .cards__item__info {
+    padding: 20px 15px 20px;
+    text-align: center;
   }
 }
